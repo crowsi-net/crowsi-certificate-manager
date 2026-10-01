@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "crowsi://certificates/authority-readiness-attestation/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "verifier_key_id",
+    "payload_base64",
+    "signature_base64"
+  ],
+  "properties": {
+    "schema": {
+      "const": "crowsi://certificates/authority-readiness-attestation/v2"
+    },
+    "verifier_key_id": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "payload_base64": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/encoded"
+    },
+    "signature_base64": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/encoded"
+    }
+  }
+}

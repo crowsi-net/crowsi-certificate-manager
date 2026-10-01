@@ -1,0 +1,47 @@
+[package]
+exclude = ["/registration/**", "/state/**", "/.local/**", "/.state/**", "/.data/**", "/secrets/**", "/credentials/**", "/.env", "/.env.production", "/.env.local", "/*.tgz", "/*.tar.gz", "/*.tar", "/*.zip", "/*.whl", "/*.crate", "/.ruff_cache/**", "/.mypy_cache/**", "/.tox/**", "/.nox/**", "/.hypothesis/**", "/.coverage", "/.coverage.*", "/htmlcov/**", "/lcov.info", "/junit.xml", "/*.profraw", "/*.profdata", "/*.egg-info/**", "/target/**", "/node_modules/**", "/dist/**", "/build/**", "/.cache/**", "/.pytest_cache/**", "/coverage/**"]
+name = "crowsi-certificate-manager"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97"
+description = "Fail-closed certificate lifecycle boundary for authenticated Crowsi workloads"
+license = "Apache-2.0"
+readme = "README.md"
+publish = false
+autotests = false
+repository = "https://github.com/crowsi-net/crowsi-certificate-manager"
+
+[package.metadata.crowsi]
+logical-service-id = "crowsi-certificate-manager"
+transport = "native-ipc"
+private-key-custody = "forbidden"
+production-adapters = "not-shipped"
+
+[workspace]
+members = ["."]
+resolver = "3"
+
+[dependencies]
+base64 = "0.22.1"
+crowsi-control-contracts = { version = "=0.1.0", registry = "ecosystem-private" }
+serde = { version = "1.0.228", features = ["derive"] }
+sha2 = "0.10.9"
+thiserror = "2.0.18"
+
+[dev-dependencies]
+serde_json = "1.0.150"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+
+[[test]]
+name = "contracts"
+path = "tests/harnesses/contracts.rs"
+
+[[test]]
+name = "lifecycle"
+path = "tests/harnesses/lifecycle.rs"

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "crowsi://certificates/management-command/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "request_id",
+    "nonce",
+    "operation",
+    "resource_id",
+    "expected_resource_version",
+    "previous_lifecycle_revocation_epoch",
+    "lifecycle_revocation_epoch",
+    "profile_id",
+    "purpose",
+    "subject",
+    "audience",
+    "scopes",
+    "requested_ttl_seconds",
+    "target_certificate_id",
+    "key_enrollment"
+  ],
+  "properties": {
+    "schema": {
+      "const": "crowsi://certificates/management-command/v2"
+    },
+    "request_id": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "nonce": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "operation": {
+      "enum": ["issue", "renew", "revoke", "status"]
+    },
+    "resource_id": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/canonicalResourceId"
+    },
+    "expected_resource_version": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/epoch"
+    },
+    "previous_lifecycle_revocation_epoch": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/epoch"
+    },
+    "lifecycle_revocation_epoch": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/epoch"
+    },
+    "profile_id": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "purpose": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "scopes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "common-definitions-v2.schema.json#/$defs/id"
+      }
+    },
+    "requested_ttl_seconds": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/epoch"
+    },
+    "target_certificate_id": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "common-definitions-v2.schema.json#/$defs/id"}
+      ]
+    },
+    "key_enrollment": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "csr_der_base64"],
+          "properties": {
+            "kind": {"const": "csr-der-base64"},
+            "csr_der_base64": {
+              "$ref": "common-definitions-v2.schema.json#/$defs/encoded"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "public_key_der_base64",
+            "proof_of_possession_base64"
+          ],
+          "properties": {
+            "kind": {"const": "public-key-der-base64"},
+            "public_key_der_base64": {
+              "$ref": "common-definitions-v2.schema.json#/$defs/encoded"
+            },
+            "proof_of_possession_base64": {
+              "$ref": "common-definitions-v2.schema.json#/$defs/encoded"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$comment": "Rust validation additionally enforces sorted scopes and operation-specific target, enrollment, TTL, version, and lifecycle-epoch transitions."
+}

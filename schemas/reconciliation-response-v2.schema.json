@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "crowsi://certificates/reconciliation-response/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "recovered_outcome"],
+  "properties": {
+    "status": {"$ref": "operation-status-v2.schema.json"},
+    "recovered_outcome": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "service-projections-v2.schema.json#/$defs/authorityOutcome"}
+      ]
+    }
+  }
+}

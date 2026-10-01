@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "crowsi://certificates/common-definitions/v2",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 256,
+      "pattern": "^[a-z0-9][a-z0-9._:/-]*$"
+    },
+    "canonicalResourceId": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 256,
+      "pattern": "^[a-z0-9][a-z0-9._:-]*(/[a-z0-9][a-z0-9._:-]*)*$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "encoded": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1048576,
+      "contentEncoding": "base64"
+    },
+    "epoch": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

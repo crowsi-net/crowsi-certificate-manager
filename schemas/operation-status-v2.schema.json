@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "crowsi://certificates/operation-status/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "reservation_id",
+    "resource_id",
+    "owner_service_id",
+    "owner_workload_id",
+    "owner_subject",
+    "owner_profile",
+    "operation_expected_resource_version",
+    "operation_lifecycle_revocation_epoch",
+    "policy_authorization_ref",
+    "policy_authorization_digest_sha256",
+    "operator_approval_evidence_ref",
+    "operator_approval_evidence_digest_sha256",
+    "operator_approval_method",
+    "operator_approval_assurance",
+    "operator_approval_verified_at_epoch_s",
+    "state_revision",
+    "state",
+    "event_digest_sha256",
+    "authority_command_digest_sha256",
+    "abandon_reason",
+    "abandon_receipt_digest_sha256",
+    "reconciliation_receipt_digest_sha256",
+    "reconciliation_authorization_digest_sha256",
+    "reconciliation_query_digest_sha256"
+  ],
+  "properties": {
+    "request_id": {"$ref": "common-definitions-v2.schema.json#/$defs/id"},
+    "reservation_id": {"$ref": "common-definitions-v2.schema.json#/$defs/id"},
+    "resource_id": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/canonicalResourceId"
+    },
+    "owner_service_id": {"$ref": "common-definitions-v2.schema.json#/$defs/id"},
+    "owner_workload_id": {"type": "string", "minLength": 1, "maxLength": 2048},
+    "owner_subject": {"$ref": "common-definitions-v2.schema.json#/$defs/id"},
+    "owner_profile": {"$ref": "common-definitions-v2.schema.json#/$defs/id"},
+    "operation_expected_resource_version": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/epoch"
+    },
+    "operation_lifecycle_revocation_epoch": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/epoch"
+    },
+    "policy_authorization_ref": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "policy_authorization_digest_sha256": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/digest"
+    },
+    "operator_approval_evidence_ref": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "operator_approval_evidence_digest_sha256": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/digest"
+    },
+    "operator_approval_method": {
+      "enum": [
+        "authenticated-session",
+        "local-user-presence",
+        "hardware-backed-user-presence"
+      ]
+    },
+    "operator_approval_assurance": {"enum": ["aal2", "aal3"]},
+    "operator_approval_verified_at_epoch_s": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/epoch"
+    },
+    "state_revision": {"type": "integer", "minimum": 1},
+    "state": {
+      "enum": [
+        "reserved",
+        "invoked",
+        "finalized",
+        "result-unknown",
+        "abandoned",
+        "reconciled-not-executed"
+      ]
+    },
+    "event_digest_sha256": {
+      "$ref": "service-projections-v2.schema.json#/$defs/optionalDigest"
+    },
+    "authority_command_digest_sha256": {
+      "$ref": "service-projections-v2.schema.json#/$defs/optionalDigest"
+    },
+    "abandon_reason": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "enum": [
+            "authorization-expired",
+            "identity-expired",
+            "custody-expired",
+            "authority-lease-expired",
+            "trust-changed",
+            "trusted-clock-rejected"
+          ]
+        }
+      ]
+    },
+    "abandon_receipt_digest_sha256": {
+      "$ref": "service-projections-v2.schema.json#/$defs/optionalDigest"
+    },
+    "reconciliation_receipt_digest_sha256": {
+      "$ref": "service-projections-v2.schema.json#/$defs/optionalDigest"
+    },
+    "reconciliation_authorization_digest_sha256": {
+      "$ref": "service-projections-v2.schema.json#/$defs/optionalDigest"
+    },
+    "reconciliation_query_digest_sha256": {
+      "$ref": "service-projections-v2.schema.json#/$defs/optionalDigest"
+    }
+  }
+}

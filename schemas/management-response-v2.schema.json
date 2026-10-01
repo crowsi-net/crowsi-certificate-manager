@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "crowsi://certificates/management-response/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "operation",
+    "state",
+    "metadata",
+    "public_certificate",
+    "lifecycle",
+    "receipt"
+  ],
+  "properties": {
+    "request_id": {"$ref": "common-definitions-v2.schema.json#/$defs/id"},
+    "operation": {"enum": ["issue", "renew", "revoke", "status"]},
+    "state": {"enum": ["active", "revoked", "expired", "unknown"]},
+    "metadata": {"$ref": "service-projections-v2.schema.json#/$defs/metadata"},
+    "public_certificate": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "service-projections-v2.schema.json#/$defs/publicCertificate"}
+      ]
+    },
+    "lifecycle": {
+      "$ref": "service-projections-v2.schema.json#/$defs/lifecycleRecord"
+    },
+    "receipt": {
+      "$ref": "service-projections-v2.schema.json#/$defs/operationReceipt"
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"operation": {"enum": ["issue", "renew"]}}},
+      "then": {
+        "properties": {
+          "public_certificate": {
+            "$ref": "service-projections-v2.schema.json#/$defs/publicCertificate"
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["revoke", "status"]}}},
+      "then": {"properties": {"public_certificate": {"type": "null"}}}
+    }
+  ]
+}

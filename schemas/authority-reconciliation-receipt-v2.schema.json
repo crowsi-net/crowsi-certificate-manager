@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "crowsi://certificates/authority-reconciliation-receipt/v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "key_id",
+    "payload_base64",
+    "signature_base64"
+  ],
+  "properties": {
+    "schema": {
+      "const": "crowsi://certificates/authority-reconciliation-receipt/v2"
+    },
+    "key_id": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/id"
+    },
+    "payload_base64": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/encoded"
+    },
+    "signature_base64": {
+      "$ref": "common-definitions-v2.schema.json#/$defs/encoded"
+    }
+  }
+}
